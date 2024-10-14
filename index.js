@@ -32,19 +32,37 @@ const playRound = (humanChoice, computerChoice)=>{
     return isWin
 }
 
-const playGame = ()=>{
+const initiateUi = ()=>{
+    const body = document.querySelector('body')
+    
+    const btn_rock = document.createElement('button')
+    const btn_paper = document.createElement('button')
+    const btn_scissors = document.createElement('button')
+    
+    btn_rock.setAttribute('id', 'rockBtn')
+    btn_paper.setAttribute('id', 'paperBtn')
+    btn_scissors.setAttribute('id', 'scissorsBtn')
+    
+    btn_rock.textContent = 'Rock'
+    btn_paper.textContent = 'Paper'
+    btn_scissors.textContent = 'Scissors'
+    
+    body.appendChild(btn_rock)
+    body.appendChild(btn_paper)
+    body.appendChild(btn_scissors)
+}
+
+initiateUi();
+
+const playGame = (playerChoice)=>{
     let humanScore = 0
     let computerScore = 0
-
-    for (let i=0; i<5; i++){
-        let playerChoice = getHumanChoice()
-        let computerChoice = getComputerChoice()
-        while(playerChoice===computerChoice){
-            console.log(`Draw! ${computerChoice} equal with ${playerChoice}`)
-            playerChoice = getHumanChoice()
-            computerChoice = getComputerChoice()
-        }
-        console.log(playerChoice)
+    
+    let computerChoice = getComputerChoice()
+    console.log(`You choose: ${playerChoice}`)
+    if (playerChoice == computerChoice){
+        console.log(`Its A Draw ${playerChoice} dont beat ${computerChoice}`)
+    }else{
         const isWin = playRound(playerChoice, computerChoice);    
         isWin?humanScore+=1:computerScore+=1
         const res = isWin?`You lose! ${computerChoice} beats ${playerChoice}`:`You win! ${playerChoice} beats ${computerChoice}`
@@ -52,4 +70,6 @@ const playGame = ()=>{
     }
 }
 
-playGame();
+document.querySelectorAll('button').forEach((v)=>v.addEventListener('click', (e)=>{
+    playGame(v.textContent);
+}))
